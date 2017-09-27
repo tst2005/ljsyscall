@@ -127,7 +127,9 @@ function lfs.dir(path)
   local size = 4096
   local buf = S.t.buffer(size)
   local fd, err = S.open(path, "directory, rdonly")
-  if err then return nil, tostring(err) end
+  if err then return
+    error("cannot open "..tostring(path)..": "..tostring(err))
+  end
   return dir_next, {size = size, buf = buf, fd = fd, next = dir_next, close = dir_close}
 end
 
